@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analog and Digital Clock</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+        }
+        #digitalClock {
+            font-size: 8vw;
+            color: #f00;
+            text-shadow: 0 0 10px #f00;
+        }
+        #analogClock {
+            width: 40vw;
+            height: 40vw;
+            border: 0.5vw solid #f00;
+            border-radius: 50%;
+            position: relative;
+        }
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: 50% 100%;
+            background-color: #f00;
+        }
+        #hourHand {
+            width: 1.5vw;
+            height: 15vw;
+            margin-left: -0.75vw;
+        }
+        #minuteHand {
+            width: 1vw;
+            height: 18vw;
+            margin-left: -0.5vw;
+        }
+        #secondHand {
+            width: 0.5vw;
+            height: 19vw;
+            margin-left: -0.25vw;
+            background-color: #10ead1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="digitalClock"></div>
+        <div id="analogClock">
+            <div id="hourHand" class="hand"></div>
+            <div id="minuteHand" class="hand"></div>
+            <div id="secondHand" class="hand"></div>
+        </div>
+    </div>
+
+    <script>
+        function updateClocks() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            // Update digital clock
+            const digitalClock = document.getElementById('digitalClock');
+            digitalClock.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+            // Update analog clock
+            const hourHand = document.getElementById('hourHand');
+            const minuteHand = document.getElementById('minuteHand');
+            const secondHand = document.getElementById('secondHand');
+
+            const hourDegrees = (hours % 12 + minutes / 60) * 30;
+            const minuteDegrees = (minutes + seconds / 60) * 6;
+            const secondDegrees = seconds * 6;
+
+            hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+            minuteHand.style.transform = `rotate(${minuteDegrees}deg)`;
+            secondHand.style.transform = `rotate(${secondDegrees}deg)`;
+        }
+
+        setInterval(updateClocks, 1000);
+        updateClocks(); // Initial call to display time immediately
+    </script>
+</body>
+</html>
